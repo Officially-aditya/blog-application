@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 
-const BlogForm = () => {
+const BlogForm = ( {fetchBlogs} ) => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [formData, setFormData] = useState({ title: "", author: "", excerpt: "", content: "" });
@@ -25,20 +25,24 @@ const BlogForm = () => {
 
   // Handle form submission
   const handleSubmit = async (e) => {
-    e.preventDefault(); // Prevent the default form submission behavior
+    e.preventDefault(); // Prevent default form submission
     try {
-      if (id) {
-        // Update existing blog post
-        await axios.put(`/api/blogs/${id}`, formData);
-      } else {
-        // Create new blog post
-        await axios.post("/api/blogs", formData);
-      }
-      navigate("/");  // Redirect to home after submission
+        if (id) {
+            // Update existing blog post
+            await axios.put(`http://localhost:5010/api/blogs/${id}`, formData, {
+            });
+        } else {
+            // Create new blog post
+            await axios.post("http://localhost:5010/api/blogs", formData, {
+            });
+        }
+        await fetchBlogs();
+        navigate("/");  // Redirect to home after submission
     } catch (error) {
-      console.error("Error submitting form:", error);
+        console.error("Error submitting form:", error);
     }
-  };
+};
+
 
   return (
     <div className="bg-white container mx-auto py-8">

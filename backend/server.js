@@ -1,5 +1,4 @@
 const express = require('express');
-const mongoose = require('mongoose');
 const cors = require('cors');
 const dotenv = require('dotenv');
 
@@ -7,11 +6,21 @@ dotenv.config();
 
 const app = express();
 
-app.use(cors());
-app.use(express.json());
+// Correct CORS Configuration
+const corsOptions = {
+    origin: "*"
+};
 
-mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
-    .then(() => console.log('MongoDB connected'))
-    .catch(err => console.error(err));
+app.use(cors(corsOptions));  // Apply CORS to all routes
 
-app.listen(5000, () => console.log('Server running on port 5000'));
+app.use(express.json());  // Enable JSON parsing
+
+
+
+// Import blog routes
+const blogRoutes = require('./routes/blogRoutes');
+app.use('/api/blogs', blogRoutes);  // This applies the routes correctly
+
+// Start Server
+const PORT = process.env.PORT || 5010;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
