@@ -7,13 +7,12 @@ const BlogForm = ( {fetchBlogs} ) => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({ title: "", author: "", excerpt: "", content: "" });
 
-  // Fetch blog data if in edit mode
   useEffect(() => {
     const fetchData = async () => {
       try {
         if (id) {
           const response = await axios.get(`/api/blogs/${id}`);
-          setFormData(response.data);  // Populate form with data for editing
+          setFormData(response.data);
         }
       } catch (error) {
         console.error("Error fetching blog:", error);
@@ -23,21 +22,18 @@ const BlogForm = ( {fetchBlogs} ) => {
     fetchData();
   }, [id]);
 
-  // Handle form submission
   const handleSubmit = async (e) => {
-    e.preventDefault(); // Prevent default form submission
+    e.preventDefault();
     try {
         if (id) {
-            // Update existing blog post
             await axios.put(`http://localhost:5010/api/blogs/${id}`, formData, {
             });
         } else {
-            // Create new blog post
             await axios.post("http://localhost:5010/api/blogs", formData, {
             });
         }
         await fetchBlogs();
-        navigate("/");  // Redirect to home after submission
+        navigate("/");  
     } catch (error) {
         console.error("Error submitting form:", error);
     }
@@ -114,7 +110,7 @@ const BlogForm = ( {fetchBlogs} ) => {
           {/* Buttons */}
           <div className="flex justify-between">
             <button
-              type="button"  // Use type "button" for the Cancel button
+              type="button"
               onClick={() => navigate("/")}
               className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
             >
@@ -122,7 +118,7 @@ const BlogForm = ( {fetchBlogs} ) => {
             </button>
 
             <button
-              type="submit"  // This triggers the form submission
+              type="submit" 
               className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
             >
               {id ? "Update Post" : "Create Post"}

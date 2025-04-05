@@ -22,13 +22,13 @@ const BlogList = () => {
     };
 
     useEffect(() => {
-        fetchBlogs(); // ✅ Fetch only once when component mounts
-    }, []);  // ✅ Empty dependency array prevents infinite loop
+        fetchBlogs(); 
+    }, []);  
 
     const handleDelete = async (id) => {
         try {
             await axios.delete(`http://localhost:5010/api/blogs/${id}`);
-            fetchBlogs();  // ✅ Refresh the list after deleting
+            fetchBlogs();  
         } catch (error) {
             console.error("Error deleting blog:", error);
         }
@@ -57,7 +57,7 @@ const BlogList = () => {
                                 <p className="text-gray-700">{blog.excerpt}</p>
                                 <div className="mt-4">
                                     <Link to={`/view/${blog.id}`} className="text-blue-500 hover:text-blue-700 mr-2">Read More</Link>
-                                    <Link to={`/edit/${blog.id}`} className="text-yellow-500 hover:text-yellow-700 mr-2">Edit</Link>
+                                    <Link to={ `/edit/${blog.id}` } className="text-yellow-500 hover:text-yellow-700 mr-2">Edit</Link>
                                     <button onClick={() => handleDelete(blog.id)} className="text-red-500 hover:text-red-700">Delete</button>
                                 </div>
                             </div>
